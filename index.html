@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#09234b">
+  <title>Sistem Aduan Murid | SMK Munshi Abdullah</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init({ publicKey: "rJGRszAdT_5LYSJDQ" });</script>
+  <style>
+    :root { --navy:#0a3d2b; --blue:#146344; --gold:#f4c94f; --ink:#18362a; --muted:#62746b; --line:#d9e7de; --paper:#fff; }
+    * { box-sizing:border-box; margin:0; }
+    body { min-height:100vh; color:var(--ink); font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background:#f2f8f4; }
+    .hero { position:relative; isolation:isolate; overflow:hidden; color:#fff; background:linear-gradient(118deg, #063923 0%, #087043 63%, #169456 100%); padding:28px 24px 116px; }
+    .hero::before, .hero::after { content:""; position:absolute; z-index:-1; border-radius:50%; background:rgba(244,197,77,.12); filter:blur(1px); }
+    .hero::before { width:430px; height:430px; right:-120px; top:-250px; }
+    .hero::after { width:280px; height:280px; left:-150px; bottom:-190px; border:1px solid rgba(255,255,255,.14); background:transparent; }
+    .topbar, .hero-content, .page { width:min(100%, 1030px); margin:auto; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:13px; text-decoration:none; color:#fff; }
+    .school-logo { width:58px; height:58px; flex:none; display:block; object-fit:contain; border-radius:50%; background:#fff; padding:2px; box-shadow:0 2px 10px rgba(0,0,0,.22); }
+    .brand-name { font-size:14px; font-weight:750; letter-spacing:.02em; }
+    .brand-sub { margin-top:3px; color:#b9cae0; font-size:12px; }
+    .status { display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid rgba(255,255,255,.2); border-radius:999px; color:#ecfff3; background:rgba(255,255,255,.07); font-size:12px; }
+    .status i { width:7px; height:7px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 3px rgba(244,201,79,.18); }
+    .hero-content { padding-top:70px; text-align:center; animation:rise .7s ease both; }
+    .eyebrow { display:inline-flex; gap:8px; align-items:center; color:#ffe08a; font-size:12px; letter-spacing:.12em; font-weight:800; text-transform:uppercase; }
+    .eyebrow::before { content:""; width:22px; height:1px; background:currentColor; }
+    h1 { max-width:700px; margin:15px auto 14px; font-family:Georgia, "Times New Roman", serif; font-size:clamp(35px, 5vw, 59px); line-height:1.04; letter-spacing:-.035em; }
+    .hero-text { max-width:545px; margin:auto; color:#d2f0dc; font-size:16px; line-height:1.7; }
+    .page { position:relative; margin-top:-62px; padding:0 24px 40px; }
+    .card { background:var(--paper); border:1px solid rgba(212,230,218,.9); border-radius:22px; box-shadow:0 18px 55px rgba(6,57,35,.16); overflow:hidden; animation:rise .75s .08s ease both; }
+    .card-head { display:flex; align-items:center; gap:15px; padding:27px 34px; border-bottom:1px solid var(--line); }
+    .head-icon { display:grid; place-items:center; width:43px; height:43px; border-radius:12px; background:#fff8dc; color:#927000; }
+    .head-icon svg { width:23px; }
+    h2 { font-size:19px; color:var(--navy); }
+    .head-copy { margin-top:4px; color:var(--muted); font-size:13px; }
+    form { padding:28px 34px 34px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .field.full { grid-column:1 / -1; }
+    label { display:block; margin-bottom:8px; color:#294639; font-size:13px; font-weight:750; }
+    label span { color:#bd8900; }
+    input, select, textarea { width:100%; border:1px solid var(--line); border-radius:10px; background:#fbfdfb; padding:13px 14px; color:var(--ink); font:inherit; font-size:14px; outline:none; transition:border-color .2s, box-shadow .2s, background .2s; }
+    input::placeholder, textarea::placeholder { color:#98a2b3; }
+    input:focus, select:focus, textarea:focus { border-color:#1a8d55; background:#fff; box-shadow:0 0 0 4px rgba(26,141,85,.13); }
+    textarea { min-height:145px; resize:vertical; line-height:1.55; }
+    .form-foot { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:25px; padding-top:22px; border-top:1px solid #e5efe8; }
+    .privacy { max-width:440px; color:var(--muted); font-size:12px; line-height:1.55; }
+    button { display:inline-flex; align-items:center; justify-content:center; gap:10px; flex:none; padding:14px 20px; border:0; border-radius:10px; color:#fff; background:#087043; font:inherit; font-size:14px; font-weight:800; cursor:pointer; box-shadow:0 7px 15px rgba(6,97,56,.2); transition:transform .18s, background .18s, box-shadow .18s; }
+    button:hover { background:#075d38; transform:translateY(-2px); box-shadow:0 10px 19px rgba(6,97,56,.28); }
+    button:disabled { cursor:wait; opacity:.7; transform:none; }
+    button svg { width:17px; }
+    .notice { display:flex; gap:12px; margin:24px 34px 32px; padding:15px 17px; border-radius:12px; border:1px solid #d6eadc; background:#f3fbf5; color:#356447; font-size:13px; line-height:1.55; }
+    .notice svg { width:19px; min-width:19px; color:#087043; }
+    footer { padding:0 24px 32px; color:#738093; text-align:center; font-size:12px; }
+    footer strong { color:#2e5c40; }
+    @keyframes rise { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width:640px) { .hero { padding:20px 18px 94px; } .status { display:none; } .hero-content { padding-top:51px; } .page { padding:0 15px 28px; margin-top:-43px; } .card-head, form { padding:23px 20px; } .form-grid { grid-template-columns:1fr; gap:17px; } .field.full { grid-column:auto; } .form-foot { align-items:stretch; flex-direction:column; } button { width:100%; } .notice { margin:0 20px 22px; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="topbar">
+      <a class="brand" href="#utama" aria-label="SMK Munshi Abdullah">
+        <img class="school-logo" src="logo-sekolah.png" alt="Logo SMK Munshi Abdullah">
+        <div><div class="brand-name">SMK MUNSHI ABDULLAH</div><div class="brand-sub">Sistem Pengurusan Aduan Murid</div></div>
+      </a>
+      <div class="status"><i></i> Saluran aduan dibuka</div>
+    </div>
+    <div class="hero-content" id="utama">
+      <div class="eyebrow">Suara anda, keutamaan kami</div>
+      <h1>Sistem Aduan Murid</h1>
+      <p class="hero-text">Salurkan aduan anda dengan selamat agar persekitaran sekolah kekal kondusif, selesa dan harmoni.</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card" aria-labelledby="form-title">
+      <div class="card-head"><div class="head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></div><div><h2 id="form-title">Borang Aduan</h2><p class="head-copy">Sila lengkapkan maklumat berikut dengan tepat.</p></div></div>
+      <form id="aduanForm">
+        <div class="form-grid">
+          <div class="field"><label for="nama">Nama murid <span>*</span></label><input id="nama" type="text" required placeholder="Masukkan nama penuh" autocomplete="name"></div>
+          <div class="field"><label for="kelas">Kelas <span>*</span></label><input id="kelas" type="text" required placeholder="Contoh: 5 Sains 1"></div>
+          <div class="field"><label for="kategori">Jenis aduan <span>*</span></label><select id="kategori" required><option value="">Pilih jenis aduan</option><option>Kebersihan</option><option>Kerosakan Fasiliti</option><option>Keselamatan</option><option>Buli</option><option>Disiplin</option><option>Lain-lain</option></select></div>
+          <div class="field"><label for="lokasi">Lokasi <span>*</span></label><input id="lokasi" type="text" required placeholder="Contoh: Makmal Komputer"></div>
+          <div class="field full"><label for="aduan">Butiran aduan <span>*</span></label><textarea id="aduan" required placeholder="Terangkan aduan anda dengan jelas supaya pihak sekolah dapat mengambil tindakan yang sesuai."></textarea></div>
+        </div>
+        <div class="form-foot"><p class="privacy">Maklumat yang diberikan akan dikendalikan oleh pihak sekolah untuk tujuan semakan dan tindakan lanjut.</p><button id="submitBtn" type="submit">Hantar aduan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5L20 7"/></svg></button></div>
+      </form>
+      <aside class="notice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg><p><strong>Makluman:</strong> Semua aduan akan dihantar terus kepada pihak sekolah melalui e-mel. Sila pastikan maklumat anda betul sebelum dihantar.</p></aside>
+    </section>
+  </main>
+  <footer>© 2026 <strong>SMK Munshi Abdullah</strong> · Sistem Aduan Murid</footer>
+  <script>
+    const form = document.getElementById('aduanForm');
+    const submitButton = document.getElementById('submitBtn');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const templateParams = { nama: nama.value, kelas: kelas.value, kategori: kategori.value, lokasi: lokasi.value, aduan: aduan.value, masa: new Date().toLocaleString('ms-MY') };
+      submitButton.disabled = true; submitButton.firstChild.textContent = 'Menghantar... ';
+      emailjs.send('munshireports', 'template_indstih', templateParams).then(function () { alert('✅ Aduan berjaya dihantar!'); form.reset(); }).catch(function (error) { alert('❌ Gagal menghantar aduan. Sila cuba semula.'); console.error(error); }).finally(function () { submitButton.disabled = false; submitButton.firstChild.textContent = 'Hantar aduan '; });
+    });
+  </script>
+</body>
+</html>
